@@ -11,8 +11,8 @@ RSpec.describe Api::V1::ParticipantsController, type: :controller do
 
     describe 'participants' do
       it 'should return all participants json' do
-        participant1 = Participant.create(name: "Test name")
-        participant2 = Participant.create(name: "Test name")
+        participant1 = create(:participant)
+        participant2 = create(:participant)
         expected_response = [participant1, participant2].to_json
         subject
         expect(JSON.parse(response.body)).to match_array(JSON.parse(expected_response))
@@ -61,8 +61,9 @@ RSpec.describe Api::V1::ParticipantsController, type: :controller do
   end
 
   describe '#update' do
-    let(:participant) {Participant.create({name: "Old test name"})}
     let(:new_name) {"Test name"}
+    let(:old_name) {"Old test name"}
+    let(:participant) { create(:participant, name: old_name) }
     let(:valid_attributes) {
       {
           id: participant.id,
@@ -100,7 +101,7 @@ RSpec.describe Api::V1::ParticipantsController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:participant) { Participant.create({name: "Test name"})}
+    let(:participant) { create(:participant) }
     subject { delete :destroy, params: { id: participant.id } }
 
     it 'should destroy message' do
