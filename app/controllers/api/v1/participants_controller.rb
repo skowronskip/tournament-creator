@@ -26,6 +26,6 @@ class Api::V1::ParticipantsController < ApplicationController
   private
 
   def participant_params
-    params.require(:participant).permit(:id, :name)
+    params.require(:participant).permit(:id, :name, :tournament_id)
   end
 end

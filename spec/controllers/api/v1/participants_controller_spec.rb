@@ -21,15 +21,18 @@ RSpec.describe Api::V1::ParticipantsController, type: :controller do
   end
 
   describe '#create' do
+    let(:tournament) { create(:tournament) }
     let(:valid_attributes) {
       { participant: {
-          name: "Test name"
+          name: "Test name",
+          tournament_id: tournament.id
         }
       }
     }
     let(:invalid_attributes) {
       { participant: {
-          name: "Definetely it is too long test name above fifty characters"
+          name: "Definetely it is too long test name above fifty characters",
+          tournament_id: tournament.id
       }
       }
     }

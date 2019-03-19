@@ -23,17 +23,20 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
   describe '#create' do
     let(:participant1) { create(:participant) }
     let(:participant2) { create(:participant) }
+    let(:tournament) { create(:tournament) }
     let(:valid_attributes) {
       { match: {
           home_team_id: participant1.id,
-          away_team_id: participant2.id
+          away_team_id: participant2.id,
+          tournament_id: tournament.id
         }
       }
     }
     let(:invalid_attributes) {
       { match: {
           home_team_id: 99,
-          away_team_id: 99
+          away_team_id: 99,
+          tournament_id: 99
         }
       }
     }
