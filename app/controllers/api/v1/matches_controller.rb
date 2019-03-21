@@ -23,6 +23,21 @@ class Api::V1::MatchesController < ApplicationController
     render json: match
   end
 
+  def generate_matches
+    tournament_id = params[:tournament_id]
+    if tournament_id == nil
+      render json: {error: 'No tournament id'}
+    else
+      participants = Tournament.find(tournament_id).participants
+      if participants == nil
+        render json: {error: 'Tournament has no participants'}
+      else
+        generator = GenerateMatches.new(participants, tournament_id)
+        render json: generator.call
+      end
+    end
+  end
+
   private
 
   def match_params

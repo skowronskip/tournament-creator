@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_19_195550) do
+ActiveRecord::Schema.define(version: 2019_03_20_211146) do
 
   create_table "matches", force: :cascade do |t|
     t.integer "homePoints"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2019_03_19_195550) do
     t.integer "away_team_id"
     t.integer "state", default: 0
     t.integer "tournament_id"
+    t.integer "match_no"
+    t.integer "round_no"
     t.index ["away_team_id"], name: "index_matches_on_away_team_id"
     t.index ["home_team_id"], name: "index_matches_on_home_team_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :participants, only: [:index, :create, :destroy, :update, :test]
       resources :matches, only: [:index, :create, :destroy, :update]
       resources :tournaments, only: [:index, :create, :destroy, :update]
+      post '/matches/generate', to: 'matches#generate_matches'
     end
   end
 end
