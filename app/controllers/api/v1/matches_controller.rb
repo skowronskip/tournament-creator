@@ -28,12 +28,17 @@ class Api::V1::MatchesController < ApplicationController
     if tournament_id == nil
       render json: {error: 'No tournament id'}
     else
-      participants = Tournament.find(tournament_id).participants
-      if participants == nil
-        render json: {error: 'Tournament has no participants'}
-      else
-        generator = GenerateMatches.new(participants, tournament_id)
-        render json: generator.call
+      begin
+        tournament = Tournament.find(tournament_id)
+        participants = tournament.participants
+        if participants.empty?
+          render json: {error: 'Tournament has no participants'}
+        else
+          generator = GenerateMatches.new(participants, tournament_id)
+          render json: generator.call
+        end
+      rescue
+        render json: {error: 'No such tournament'}
       end
     end
   end

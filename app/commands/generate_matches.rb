@@ -42,7 +42,6 @@ class GenerateMatches
         home_indices.push(@participants[i])
         i += 1
       end
-      puts '-----'
       while j > half_way - 1 do
         away_indices.push(@participants[j])
         j -= 1
@@ -54,7 +53,6 @@ class GenerateMatches
       i = 0
       while i < half_way do
         if home_indices[i] != 0
-          puts "Round #{round}: Match:#{match_no}: #{home_indices[i]} vs #{away_indices[i]}"
           matches.push(Match.create({
               tournament_id: @tournament_id,
               home_team_id: home_indices[i].id,
@@ -87,7 +85,6 @@ class GenerateMatches
         home_indices[1] = temp
         j -= 1
       end
-      puts '----------------------'
       round += 1
     end
     matches
