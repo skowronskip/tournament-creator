@@ -148,4 +148,45 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
       end
     end
   end
+
+  describe '#tournament_matches' do
+    let(:tournament) { create(:tournament) }
+    let(:valid_attributes) {
+      { tournament_id: tournament.id }
+    }
+    let(:invalid_attributes) {
+      { tournament_id: 6 }
+    }
+    context 'valid attributes' do
+      subject { get :tournament_matches, params: valid_attributes }
+      it 'should return list of created matches' do
+        create(:participant, tournament_id: tournament.id)
+        create(:participant, tournament_id: tournament.id)
+        create(:participant, tournament_id: tournament.id)
+        create(:participant, tournament_id: tournament.id)
+        generator = GenerateMatches.new(tournament.participants, tournament.id)
+        generator.call
+        response = JSON.parse(subject.body)
+        expect(response.length).to be_equal(6)
+      end
+      it 'should return empty array' do
+        response = JSON.parse(subject.body)
+        expect(response.length).to be_equal(0)
+      end
+    end
+    context 'invalid attributes' do
+      subject { post :generate_matches, params: invalid_attributes }
+      it 'should return error that tournament id is wrong' do
+        response = JSON.parse(subject.body)
+        expect(response["error"]).to match("No such tournament")
+      end
+    end
+    context 'no attributes' do
+      subject { post :generate_matches, params: {} }
+      it 'should return error that tournament id is wrong' do
+        response = JSON.parse(subject.body)
+        expect(response["error"]).to match("No tournament id")
+      end
+    end
+  end
 end

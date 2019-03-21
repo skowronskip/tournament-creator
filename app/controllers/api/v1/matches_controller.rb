@@ -43,6 +43,20 @@ class Api::V1::MatchesController < ApplicationController
     end
   end
 
+  def tournament_matches
+    tournament_id = params[:tournament_id]
+    if tournament_id == nil
+      render json: {error: 'No tournament id'}
+    else
+      begin
+        tournament = Tournament.find(tournament_id)
+        render json: tournament.matches
+      rescue
+        render json: {error: 'No such tournament'}
+      end
+    end
+  end
+
   private
 
   def match_params
