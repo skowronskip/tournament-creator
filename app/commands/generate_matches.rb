@@ -12,12 +12,12 @@ class GenerateMatches
 
   def generate_matches
     participants_amount = @participants.length
-    rounds_amount = participants_amount - 1
     matches = Tournament.find(@tournament_id).matches
     unless matches.empty?
       return {error: 'Tournament has already generated matches'}
     end
     if participants_amount.odd?
+      rounds_amount = participants_amount
       half_way = (participants_amount + 1)/ 2
       home_indices = Array.new
       away_indices = Array.new
@@ -33,6 +33,7 @@ class GenerateMatches
         j -= 1
       end
     else
+      rounds_amount = participants_amount - 1
       half_way = participants_amount / 2
       home_indices = Array.new
       away_indices = Array.new

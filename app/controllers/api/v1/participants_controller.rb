@@ -23,6 +23,21 @@ class Api::V1::ParticipantsController < ApplicationController
     render json: participant
   end
 
+  def team_statistics
+    team_id = params[:team_id]
+    if team_id == nil
+      render json: { error: 'No team id' }
+    else
+      begin
+        team = Participant.find(team_id)
+        team_statistics = CalculateTeamStatistics.new(team, team.as_home_team, team.as_away_team)
+        render json: team_statistics.call
+      rescue
+        render json: { error: 'There is no such team' }
+      end
+    end
+  end
+
   private
 
   def participant_params

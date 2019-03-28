@@ -23,6 +23,22 @@ class Api::V1::TournamentsController < ApplicationController
     render json: tournament
   end
 
+  def tournament_statistics
+    tournament_id = params[:tournament_id]
+    if tournament_id == nil
+      render json: { error: 'No tournament id' }
+    else
+      tournament = Tournament.find(tournament_id)
+      calculator = CalculateTournamentTable.new(tournament.participants)
+      render json: calculator.call
+      begin
+
+      rescue
+        render json: { error: 'There is no such torunament' }
+      end
+    end
+  end
+
   private
 
   def tournament_params

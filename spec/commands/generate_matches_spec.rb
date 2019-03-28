@@ -20,7 +20,7 @@ RSpec.describe GenerateMatches do
       create(:participant, tournament_id: tournament.id)
       create(:participant, tournament_id: tournament.id)
       command = GenerateMatches.new(tournament.participants, tournament.id)
-      expect{command.call}.to change{Match.count}.by(8)
+      expect{command.call}.to change{Match.count}.by(10)
     end
 
     it 'should return error if tournament has already any match' do
