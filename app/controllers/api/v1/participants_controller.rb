@@ -1,4 +1,5 @@
 class Api::V1::ParticipantsController < ApplicationController
+  skip_before_action :authenticate_request, only: %i[index create destroy update team_statistics]
   def index
     render json: Participant.all
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_211146) do
+ActiveRecord::Schema.define(version: 2019_03_30_122959) do
 
   create_table "matches", force: :cascade do |t|
     t.integer "homePoints"
@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 2019_03_20_211146) do
     t.datetime "updated_at", null: false
     t.integer "state", default: 0
     t.integer "type"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "login"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

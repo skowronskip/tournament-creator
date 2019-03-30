@@ -29,5 +29,21 @@ module Tournamentcreator
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    #cors configuration
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
+    #autoloads lib folder during production
+    config.eager_load_paths << Rails.root.join('lib')
+
+    #autoloads lib folder during development
+    config.autoload_paths << Rails.root.join('lib')
+
+    # Skip views, helpers and assets when generating a new resource.
+    config.api_only = true
   end
 end
