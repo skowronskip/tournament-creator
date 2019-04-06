@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_30_122959) do
+ActiveRecord::Schema.define(version: 2019_04_04_175639) do
+
+  create_table "games", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "matches", force: :cascade do |t|
     t.integer "homePoints"
@@ -42,6 +49,10 @@ ActiveRecord::Schema.define(version: 2019_03_30_122959) do
     t.datetime "updated_at", null: false
     t.integer "state", default: 0
     t.integer "type"
+    t.integer "user_id"
+    t.integer "game_id"
+    t.index ["game_id"], name: "index_tournaments_on_game_id"
+    t.index ["user_id"], name: "index_tournaments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

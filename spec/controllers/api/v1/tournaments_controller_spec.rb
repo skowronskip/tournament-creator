@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::TournamentsController, type: :controller do
+  def authenticated_header(request, email, password)
+    command = AuthenticateUser.call(email, password)
+    token = command.result
+    request.headers.merge!('Authorization': "Bearer #{token}")
+  end
+
   describe '#index' do
     subject { get :index }
 
@@ -21,9 +27,12 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
   end
 
   describe '#create' do
+    let(:user) {create(:user)}
+    let(:game) {create(:game)}
     let(:valid_attributes) {
       { tournament: {
-          name: "Test name"
+          name: "Test name",
+          game_id: game.id
         }
       }
     }
@@ -35,12 +44,13 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
     }
     context 'valid params' do
       subject { post :create, params: valid_attributes }
-
       it 'should create new tournament' do
+        authenticated_header(request, user.email, user.password)
         expect { subject }.to change{ Tournament.count }.by(1)
       end
 
       it 'should new tournament return new object' do
+        authenticated_header(request, user.email, user.password)
         new_tournament = JSON.parse(subject.body)
         expect(new_tournament["name"]).to include(valid_attributes[:tournament][:name])
       end
@@ -50,10 +60,12 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
       subject { post :create, params: invalid_attributes }
 
       it 'should not create new tournament' do
+        authenticated_header(request, user.email, user.password)
         expect { subject }.not_to change{ Tournament.count }
       end
 
       it 'should return `false` as error' do
+        authenticated_header(request, user.email, user.password)
         new_tournament = JSON.parse(subject.body)
         expect(new_tournament).to be_equal(false)
       end

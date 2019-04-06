@@ -1,15 +1,21 @@
 class Api::V1::TournamentsController < ApplicationController
-  skip_before_action :authenticate_request, only: %i[index create destroy update tournament_statistics]
+  skip_before_action :authenticate_request, only: %i[index destroy update tournament_statistics]
   def index
     render json: Tournament.all
   end
 
+  def get_my_tournaments
+    tournaments = Tournament.where(user_id: current_user.id)
+    render json: tournaments
+  end
+
   def create
-    tournament = Tournament.create(tournament_params)
+    puts current_user
+    tournament = Tournament.create({name: tournament_params[:name], game_id: tournament_params[:game_id], user_id: current_user.id})
     if tournament.id
       render json: tournament
     else
-      render json: false
+      render json: false, status: :unauthorized
     end
   end
 
@@ -43,6 +49,6 @@ class Api::V1::TournamentsController < ApplicationController
   private
 
   def tournament_params
-    params.require(:tournament).permit(:id, :name, :type);
+    params.require(:tournament).permit(:id, :name, :game, :game_id, :type);
   end
 end

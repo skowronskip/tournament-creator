@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :participants, only: [:index, :create, :destroy, :update, :test]
       resources :matches, only: [:index, :create, :destroy, :update]
       resources :tournaments, only: [:index, :create, :destroy, :update]
+      resources :games, only: [:index]
 
       #Users Routes
       post '/users/register', to: 'users#register'
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
 
       #Tournament Routes
       get '/tournaments/statistics/:tournament_id', to: 'tournaments#tournament_statistics'
+      get '/tournaments/myTournaments', to: 'tournaments#get_my_tournaments'
     end
   end
 end

@@ -50,11 +50,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     }
 
     context 'valid attributes' do
-      subject { post :login, params: valid_attributes }
 
-      it 'should return correct message' do
-        expect(JSON.parse(subject.body)["message"]).to include("Login Successful")
-      end
     end
 
   end
