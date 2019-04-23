@@ -61,6 +61,6 @@ class Api::V1::MatchesController < ApplicationController
   private
 
   def match_params
-    params.require(:match).permit(:id, :homePoints, :awayPoints, :home_team_id, :away_team_id, :tournament_id);
+    params.require(:match).permit(:id, :homePoints, :awayPoints, :home_team_id, :away_team_id, :tournament_id, :state);
   end
 end

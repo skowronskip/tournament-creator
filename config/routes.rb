@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       #Tournament Routes
       get '/tournaments/statistics/:tournament_id', to: 'tournaments#tournament_statistics'
       get '/tournaments/myTournaments', to: 'tournaments#get_my_tournaments'
+      get '/tournaments/tournament/:id', to: 'tournaments#get_one_tournament'
     end
   end
 end

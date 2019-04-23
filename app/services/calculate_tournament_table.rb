@@ -16,7 +16,7 @@ class CalculateTournamentTable
     end
     assign = OrderTeamsByAllConditions.new(calculated)
     table = assign.call.flatten
-    table = table.sort_by { |team| [-team[:points], team[:ex_aequo_place]] }
+    table = table.sort_by { |team| [-team[:points], team[:ex_aequo_place], -team[:goals_difference]] }
     place = 1
     table.each do |team|
       team[:place] = place
