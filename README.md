@@ -22,6 +22,7 @@ Used technologies:
 - Ruby
 - Ruby on Rails
 - PostgreSQL
+- RSpec
 
 # Demo
 Api is available on: http://api.tcreator.pskowron.ski
